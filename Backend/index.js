@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import 'dotenv/config';
 import hmpiRoute from './src/route/hmpi.route.js';
 import csvRouter from './src/route/csvProcessor.route.js'
+import resultOpRouter  from './src/route/resultOp.route.js'
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,7 +20,8 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
 // Routes
 app.use('/api/csv',csvRouter)
-app.use('/api/hmpi', hmpiRoute);
+app.use('/api/hmpi', hmpiRoute)
+app.use('/api/result',resultOpRouter)
 
 // Health check endpoint
 app.get('/health', (req, res) => {
