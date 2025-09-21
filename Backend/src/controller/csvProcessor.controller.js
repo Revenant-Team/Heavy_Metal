@@ -1,5 +1,5 @@
-
-
+import HMPIController from './hmpi.controller.js'
+const hmpiController = new HMPIController();
 const csvProcessor = async (req,res)=>{
      try {
         if (!req.file) {
@@ -45,7 +45,7 @@ const csvProcessor = async (req,res)=>{
             }
         }
 
-        res.json({
+        const friendData = {
             success: true,
             totalRows: rows.length - 1,
             processedRows: results.length,
@@ -53,7 +53,34 @@ const csvProcessor = async (req,res)=>{
             data: results,
             errors: errors,
             summary: generateDataSummary(results)
-        });
+        };
+        if (!friendData || !friendData.success || !Array.isArray(friendData.data)) {
+            return res.status(400).json({
+                success: false,
+                error: 'Invalid file data format',
+                expected: {
+                    success: true,
+                    data: [
+                        {
+                            location: { state: 'string', district: 'string' },
+                            heavyMetals: { iron: 'number', arsenic: 'number' }
+                        }
+                    ]
+                }
+            });
+        }
+
+        if (friendData.data.length === 0) {
+            return res.status(400).json({
+                success: false,
+                error: 'No data to process',
+                message: 'File data array is empty'
+            });
+        }
+
+        const result = hmpiController.processFileData(friendData);
+        res.json(result);
+
 
     } catch (error) {
         res.status(500).json({
