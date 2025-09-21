@@ -1,13 +1,1358 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HMPI Portal - Heavy Metal Pollution Analysis</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #2563eb;
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+            background: #2563eb;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #64748b;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notification {
+            position: relative;
+            color: #64748b;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .notification:hover {
+            color: #2563eb;
+        }
+
+        .notification::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 8px;
+            height: 8px;
+            background: #ef4444;
+            border-radius: 50%;
+        }
+
+        .profile {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .profile:hover {
+            transform: scale(1.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23ffffff" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-text .highlight {
+            color: #60a5fa;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            margin-bottom: 2.5rem;
+            max-width: 550px;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+        }
+
+        .btn-secondary {
+            color: white;
+            padding: 1rem 2rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 10px;
+            background: transparent;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.6);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem 1.5rem;
+            border-radius: 16px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.15);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .stat-number.blue {
+            color: #60a5fa;
+        }
+
+        .stat-number.green {
+            color: #34d399;
+        }
+
+        .stat-label {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Challenge Section */
+        .challenge-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #1e293b;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #64748b;
+            font-size: 1.2rem;
+            margin-bottom: 4rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .challenge-item {
+            display: flex;
+            gap: 1.5rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            border: 1px solid #e2e8f0;
+        }
+
+        .challenge-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .challenge-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .challenge-icon.red {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .challenge-icon.orange {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .challenge-icon.purple {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        .challenge-icon.blue {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+
+        .challenge-content h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: #1e293b;
+        }
+
+        .challenge-content p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .stakeholders-section {
+            margin-top: 4rem;
+        }
+
+        .stakeholders-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stakeholder-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+
+        .stakeholder-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .stakeholder-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+
+        .stakeholder-icon.blue {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+
+        .stakeholder-icon.green {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .stakeholder-icon.orange {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .stakeholder-item h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+
+        .stakeholder-item p {
+            color: #64748b;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Solution Section */
+        .solution-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+        }
+
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .solution-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+
+        .solution-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+
+        .solution-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        .solution-icon.blue {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+
+        .solution-icon.green {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .solution-icon.purple {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        .solution-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+
+        .solution-card p {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .solution-features {
+            list-style: none;
+        }
+
+        .solution-features li {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .solution-features li::before {
+            content: '✓';
+            color: #10b981;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* Platform Features */
+        .features-section {
+            padding: 5rem 2rem;
+            background: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            border-radius: 16px;
+            transition: all 0.3s;
+            background: #fafafa;
+            border: 1px solid #e2e8f0;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            background: white;
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 1.6rem;
+        }
+
+        .feature-icon.blue {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+
+        .feature-icon.teal {
+            background: linear-gradient(135deg, #14b8a6, #0d9488);
+        }
+
+        .feature-icon.orange {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .feature-icon.purple {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        .feature-icon.red {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .feature-icon.green {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: #1e293b;
+        }
+
+        .feature-card p {
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        /* Transform Section */
+        .transform-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            position: relative;
+        }
+
+        .transform-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="5" cy="5" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+        }
+
+        .transform-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .transform-card {
+            text-align: center;
+            padding: 2.5rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+
+        .transform-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255,255,255,0.15);
+        }
+
+        .transform-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+        }
+
+        .transform-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .transform-card p {
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="waves" width="100" height="20" patternUnits="userSpaceOnUse"><path d="M0 20 Q 25 10 50 20 T 100 20 V 0 H 0 Z" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23waves)"/></svg>');
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-section h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-white {
+            background: white;
+            color: #3b82f6;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(255,255,255,0.2);
+        }
+
+        .btn-white:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.3);
+        }
+
+        .btn-outline {
+            color: white;
+            padding: 1rem 2.5rem;
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 12px;
+            background: transparent;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+            
+            .solutions-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .transform-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .challenges-grid,
+            .stakeholders-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .solutions-grid,
+            .features-grid,
+            .transform-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .cta-section h2 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .solutions-grid,
+            .features-grid,
+            .transform-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-buttons,
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .cta-section h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Loading animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Interactive elements */
+        .interactive-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .interactive-hover:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">
+                <i class="fas fa-water"></i>
+                HMPI Portal
+            </div>
+            <ul class="nav-links">
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#calculator">Calculator</a></li>
+                <li><a href="#analytics">Analytics</a></li>
+                <li><a href="#research">Research Portal</a></li>
+                <li><a href="#docs">Documentation</a></li>
+            </ul>
+            <div class="nav-right">
+                <div class="notification">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="profile">H</div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text fade-in-up">
+                <h1>Automated Heavy Metal <span class="highlight">Pollution Analysis</span></h1>
+                <p class="hero-description">
+                    Transform groundwater monitoring with AI-powered HMI calculations, predictive analytics, and interactive geospatial visualization for evidence-based environmental decisions.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#start" class="btn-primary">
+                        <i class="fas fa-play"></i> Start Analysis
+                    </a>
+                    <a href="#demo" class="btn-secondary">View Demo</a>
+                </div>
+            </div>
+            <div class="stats fade-in-up">
+                <div class="stat-card interactive-hover">
+                    <div class="stat-number blue">99.8%</div>
+                    <div class="stat-label">Calculation Accuracy</div>
+                </div>
+                <div class="stat-card interactive-hover">
+                    <div class="stat-number green">5000+</div>
+                    <div class="stat-label">Datasets Analyzed</div>
+                </div>
+                <div class="stat-card interactive-hover">
+                    <div class="stat-number blue">15+</div>
+                    <div class="stat-label">Heavy Metals</div>
+                </div>
+                <div class="stat-card interactive-hover">
+                    <div class="stat-number green">AI</div>
+                    <div class="stat-label">Powered Insights</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Challenge Section -->
+    <section class="challenge-section">
+        <div class="container">
+            <h2 class="section-title">The Challenge We Solve</h2>
+            <p class="section-subtitle">
+                Groundwater contamination by heavy metals poses critical environmental and public health risks
+            </p>
+            
+            <div class="challenges-grid">
+                <div class="challenge-item">
+                    <div class="challenge-icon red">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="challenge-content">
+                        <h3>Manual Calculation Complexity</h3>
+                        <p>Time-consuming and error-prone HMI calculations with limited automation and efficiency</p>
+                    </div>
+                </div>
+                
+                <div class="challenge-item">
+                    <div class="challenge-icon orange">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="challenge-content">
+                        <h3>Limited Visualization</h3>
+                        <p>Difficulty in visualizing comprehensive trends and patterns across different regions</p>
+                    </div>
+                </div>
+                
+                <div class="challenge-item">
+                    <div class="challenge-icon purple">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="challenge-content">
+                        <h3>Fragmented Data Management</h3>
+                        <p>No centralized platform for storing, managing and monitoring datasets over time</p>
+                    </div>
+                </div>
+                
+                <div class="challenge-item">
+                    <div class="challenge-icon blue">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="challenge-content">
+                        <h3>Lack of Predictive Analytics</h3>
+                        <p>Absence of assessment tools to predict future contamination risks and trends</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stakeholders-section">
+                <h3 style="margin-bottom: 1rem; text-align: center; color: #1e293b; font-size: 1.8rem;">Impact on Stakeholders</h3>
+                
+                <div class="stakeholders-grid">
+                    <div class="stakeholder-item">
+                        <div class="stakeholder-icon blue">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <div>
+                            <h4>Researchers</h4>
+                            <p>Reduced data analysis time leading research productivity and accelerated discovery</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stakeholder-item">
+                        <div class="stakeholder-icon green">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div>
+                            <h4>Policymakers</h4>
+                            <p>Limited decision-making due to lack of real-time contamination monitoring</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stakeholder-item">
+                        <div class="stakeholder-icon orange">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div>
+                            <h4>Environmental Agencies</h4>
+                            <p>Enhanced monitoring protocols offering public health protection and compliance</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="solution-section">
+        <div class="container">
+            <h2 class="section-title">Our Comprehensive Solution</h2>
+            <p class="section-subtitle">
+                An integrated web-based platform that automates HMPI computations, enables predictive analytics, and provides actionable environmental intelligence
+            </p>
+            
+            <div class="solutions-grid">
+                <div class="solution-card">
+                    <div class="solution-icon blue">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI-Powered Automation</h3>
+                    <p>Automated HMPI calculations with machine learning for predictive risk assessment and trend analysis.</p>
+                    <ul class="solution-features">
+                        <li>Automated index computation</li>
+                        <li>Predictive analytics</li>
+                        <li>Risk modeling</li>
+                    </ul>
+                </div>
+                
+                <div class="solution-card">
+                    <div class="solution-icon green">
+                        <i class="fas fa-chart-area"></i>
+                    </div>
+                    <h3>Interactive Visualization</h3>
+                    <p>Geospatial heatmaps, geographic maps, and comprehensive dashboards for enhanced data interpretation.</p>
+                    <ul class="solution-features">
+                        <li>Geospatial heatmaps</li>
+                        <li>Interactive maps</li>
+                        <li>Custom dashboards</li>
+                    </ul>
+                </div>
+                
+                <div class="solution-card">
+                    <div class="solution-icon purple">
+                        <i class="fas fa-user-cog"></i>
+                    </div>
+                    <h3>Personalized Portal</h3>
+                    <p>Secure researcher portal with database management, historical analysis, and collaborative features.</p>
+                    <ul class="solution-features">
+                        <li>Secure access</li>
+                        <li>Data analytics</li>
+                        <li>Data sharing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Platform Features -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">Platform Features</h2>
+            <p class="section-subtitle">Comprehensive tools for environmental monitoring and analysis</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon blue">
+                        <i class="fas fa-upload"></i>
+                    </div>
+                    <h3>Drag & Drop Upload</h3>
+                    <p>Easy dataset upload with bulk import capabilities</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon teal">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Input Validation</h3>
+                    <p>Real-time data validation and quality assurance</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon orange">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>RESTful API</h3>
+                    <p>Seamless integration with external systems and databases</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon purple">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>PostGIS Database</h3>
+                    <p>Optimized data storage with geospatial capabilities</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon blue">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>ML Predictions</h3>
+                    <p>15 ML-based models for trend forecasting</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon red">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Outlier Detection</h3>
+                    <p>K-Means clustering for contamination hotspot identification</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon green">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3>Health Risk Models</h3>
+                    <p>WHO-standard carcinogenic risk calculations</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon orange">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Continuous Learning</h3>
+                    <p>Machine learning with real datasets</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Transform Section -->
+    <section class="transform-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="section-title" style="color: white;">Transforming Environmental Monitoring</h2>
+                <p class="section-subtitle" style="color: #cbd5e1; margin-bottom: 2rem;">
+                    Our HMPI platform will revolutionize groundwater monitoring and contribute to sustainable environmental management
+                </p>
+            </div>
+            
+            <div class="transform-grid">
+                <div class="transform-card">
+                    <div class="transform-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3>Reduce Human Error</h3>
+                    <p>Automated calculations reduce manual errors and increase accuracy</p>
+                </div>
+                
+                <div class="transform-card">
+                    <div class="transform-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Enhanced Insights</h3>
+                    <p>Interactive geospatial visualization for better decision making</p>
+                </div>
+                
+                <div class="transform-card">
+                    <div class="transform-icon">
+                        <i class="fas fa-users-cog"></i>
+                    </div>
+                    <h3>Empower Researchers</h3>
+                    <p>Comprehensive portal for researchers enabling long-term environmental studies</p>
+                </div>
+                
+                <div class="transform-card">
+                    <div class="transform-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Protect Public Health</h3>
+                    <p>Predictive analytics for proactive monitoring and contamination prevention</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Transform Your Environmental Research?</h2>
+                <p>Join leading researchers and agencies using our HMPI platform for accurate, efficient groundwater analysis.</p>
+                <div class="cta-buttons">
+                    <a href="#trial" class="btn-white">Start Free Trial</a>
+                    <a href="#demo" class="btn-outline">Schedule Demo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JavaScript for Interactivity -->
+    <script>
+        // Add smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards for animation
+        document.querySelectorAll('.challenge-item, .solution-card, .feature-card, .transform-card, .stakeholder-item').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Add hover effects to stats cards
+        document.querySelectorAll('.stat-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.05)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(-5px) scale(1)';
+            });
+        });
+
+        // Add notification click handler
+        document.querySelector('.notification').addEventListener('click', function() {
+            alert('You have 3 new analysis reports ready for review!');
+        });
+
+        // Add profile click handler
+        document.querySelector('.profile').addEventListener('click', function() {
+            alert('Profile menu would open here');
+        });
+
+        // Button click handlers
+        document.querySelectorAll('.btn-primary, .btn-white').forEach(button => {
+            button.addEventListener('click', function(e) {
+                if (this.getAttribute('href').startsWith('#')) {
+                    e.preventDefault();
+                    
+                    // Create ripple effect
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        border-radius: 50%;
+                        background: rgba(255,255,255,0.6);
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}px;
+                        top: ${y}px;
+                        pointer-events: none;
+                    `;
+                    
+                    this.style.position = 'relative';
+                    this.style.overflow = 'hidden';
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                    
+                    // Show demo message
+                    setTimeout(() => {
+                        if (this.textContent.includes('Start')) {
+                            alert('🚀 Analysis dashboard would load here with real-time data processing capabilities!');
+                        } else if (this.textContent.includes('Demo')) {
+                            alert('🎬 Interactive demo would begin, showcasing AI-powered pollution analysis features!');
+                        } else if (this.textContent.includes('Trial')) {
+                            alert('✨ Free trial registration form would appear with full platform access!');
+                        }
+                    }, 300);
+                }
+            });
+        });
+
+        // Add CSS animation for ripple effect
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Add loading simulation for demonstration
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Add dynamic counter animation for stats
+        function animateCounter(element, target) {
+            const increment = target / 100;
+            let current = 0;
+            
+            const updateCounter = () => {
+                current += increment;
+                if (current < target) {
+                    element.textContent = Math.ceil(current) + (target > 100 ? '+' : '%');
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    if (target === 99.8) {
+                        element.textContent = '99.8%';
+                    } else if (target === 5000) {
+                        element.textContent = '5000+';
+                    } else if (target === 15) {
+                        element.textContent = '15+';
+                    } else {
+                        element.textContent = 'AI';
+                    }
+                }
+            };
+            
+            updateCounter();
+        }
+
+        // Trigger counter animations when stats section is visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumbers = entry.target.querySelectorAll('.stat-number');
+                    statNumbers.forEach((stat, index) => {
+                        setTimeout(() => {
+                            if (index === 0) animateCounter(stat, 99.8);
+                            else if (index === 1) animateCounter(stat, 5000);
+                            else if (index === 2) animateCounter(stat, 15);
+                            else stat.textContent = 'AI';
+                        }, index * 200);
+                    });
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const statsSection = document.querySelector('.stats');
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+    </script>
+</body>
 </html>
