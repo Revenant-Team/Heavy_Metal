@@ -5,7 +5,7 @@ const HomePage: React.FC = () => {
   const features = [
     {
       icon: Zap,
-      title: 'AI-Powered Automation',
+      title: 'AI-Powered Automatio',
       description: 'Automated HMPI calculations with machine learning for predictive risk assessment and trend forecasting.',
       highlights: ['Automated risk computation', 'Predictive analytics', 'Risk mapping']
     },
